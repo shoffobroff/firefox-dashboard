@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+  <!-- ── Settings overlay + panel ─────────────────────── -->
+  <div id="settings-overlay" class="settings-overlay"></div>
+  <aside id="settings-panel" class="settings-panel" aria-label="Settings">
+    <div class="sp-head">
+      <h2>Settings</h2>
+      <button id="settings-close" class="icon-btn" title="Close">✕</button>
+    </div>
+    <div class="sp-body">
+
+      <section class="sp-section">
+        <h3>Personal</h3>
+        <label class="sp-label">Your name
+          <input type="text" id="cfg-name" placeholder="e.g. Shane" autocomplete="off">
+        </label>
+      </section>
+
+      <section class="sp-section">
+        <h3>Appearance</h3>
+        <div class="sp-row">
+          <span>Theme</span>
+          <div class="btn-group">
+            <button class="seg-btn" data-cfg="theme" data-val="dark">Dark</button>
+            <button class="seg-btn" data-cfg="theme" data-val="light">Light</button>
+          </div>
+        </div>
+        <label class="sp-label">Accent color
+          <div class="swatches" id="accent-swatches">
+            <button class="swatch" data-color="#7c6aff" style="background:#7c6aff" title="Purple"></button>
+            <button class="swatch" data-color="#58a6ff" style="background:#58a6ff" title="Blue"></button>
+            <button class="swatch" data-color="#3fb950" style="background:#3fb950" title="Green"></button>
+            <button class="swatch" data-color="#f0883e" style="background:#f0883e" title="Orange"></button>
+            <button class="swatch" data-color="#f778ba" style="background:#f778ba" title="Pink"></button>
+            <button class="swatch" data-color="#e3b341" style="background:#e3b341" title="Gold"></button>
+            <input type="color" id="cfg-accent-custom" title="Custom colour" value="#7c6aff">
+          </div>
+        </label>
+      </section>
+
+      <section class="sp-section">
+        <h3>Clock</h3>
+        <div class="sp-row">
+          <span>24-hour format</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="cfg-24h">
+            <span class="track"></span>
+          </label>
+        </div>
+        <div class="sp-row">
+          <span>Show seconds</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="cfg-seconds">
+            <span class="track"></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="sp-section">
+        <h3>Search</h3>
+        <label class="sp-label">Default engine
+          <select id="cfg-engine">
+            <option value="google">Google</option>
+            <option value="ddg">DuckDuckGo</option>
+            <option value="bing">Bing</option>
+          </select>
+        </label>
+        <div class="sp-row">
+          <span>Open in new tab</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="cfg-search-newtab">
+            <span class="track"></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="sp-section">
+        <h3>Weather</h3>
+        <div class="sp-row">
+          <span>Temperature unit</span>
+          <div class="btn-group">
+            <button class="seg-btn" data-cfg="tempUnit" data-val="c">°C</button>
+            <button class="seg-btn" data-cfg="tempUnit" data-val="f">°F</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="sp-section">
+        <h3>Quick Links</h3>
+        <div class="sp-row">
+          <span>Columns</span>
+          <div class="btn-group">
+            <button class="seg-btn" data-cfg="linkCols" data-val="2">2</button>
+            <button class="seg-btn" data-cfg="linkCols" data-val="3">3</button>
+            <button class="seg-btn" data-cfg="linkCols" data-val="4">4</button>
+          </div>
+        </div>
+        <button id="import-bookmarks-btn" class="sp-action-btn">Import from Bookmarks&hellip;</button>
+      </section>
+
+      <section class="sp-section">
+        <h3>Open Tabs</h3>
+        <label class="sp-label">Max tabs shown
+          <select id="cfg-max-tabs">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="0">All</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="sp-section">
+        <h3>Widgets</h3>
+        <div class="sp-row"><span>Search bar</span>
+          <label class="toggle-switch"><input type="checkbox" id="widget-search"><span class="track"></span></label>
+        </div>
+        <div class="sp-row"><span>Quick Links</span>
+          <label class="toggle-switch"><input type="checkbox" id="widget-links"><span class="track"></span></label>
+        </div>
+        <div class="sp-row"><span>Weather</span>
+          <label class="toggle-switch"><input type="checkbox" id="widget-weather"><span class="track"></span></label>
+        </div>
+        <div class="sp-row"><span>To-Do</span>
+          <label class="toggle-switch"><input type="checkbox" id="widget-todo"><span class="track"></span></label>
+        </div>
+        <div class="sp-row"><span>Open Tabs</span>
+          <label class="toggle-switch"><input type="checkbox" id="widget-tabs"><span class="track"></span></label>
+        </div>
+      </section>
+
+      <section class="sp-section">
+        <button id="reset-settings-btn" class="sp-danger-btn">Reset All Settings</button>
+      </section>
+
+    </div>
+  </aside>
+
+  <!-- ── Main content ──────────────────────────────────── -->
+  <div class="container">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="hd-left">
+        <span id="greeting" class="greeting">Good morning</span>
+      </div>
+      <div class="hd-center">
+        <div id="clock" class="clock">00:00:00</div>
+        <div id="date" class="date">Saturday, January 1, 2026</div>
+      </div>
+      <div class="hd-right">
+        <button id="edit-btn" class="icon-btn" title="Edit layout">Edit</button>
+        <button id="settings-btn" class="icon-btn" title="Settings">&#9881;</button>
+      </div>
+    </header>
+
+    <!-- Edit mode bar -->
+    <div id="edit-bar" class="edit-bar hidden">
+      <span>&#10022; Drag sections and cards to rearrange &mdash; use <strong>&#8903;</strong> handles</span>
+      <button id="edit-done-btn" class="btn-primary">Done</button>
+    </div>
+
+    <!-- Reorderable sections -->
+    <div id="sections-container" class="sections-container">
+
+      <!-- Search -->
+      <div class="section-wrapper" data-section="search">
+        <div class="edit-controls">
+          <span class="drag-handle" title="Drag to reorder">&#8903; Search Bar</span>
+          <button class="hide-widget-btn" data-widget="search" title="Hide">Hide</button>
+        </div>
+        <div class="search-section">
+          <div class="search-bar">
+            <select id="search-engine" class="search-engine-select">
+              <option value="google">Google</option>
+              <option value="ddg">DuckDuckGo</option>
+              <option value="bing">Bing</option>
+            </select>
+            <input type="text" id="search-input" class="search-input" placeholder="Search the web&hellip;" autocomplete="off" spellcheck="false">
+            <button id="search-btn" class="search-btn" aria-label="Search">&#8594;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards row (links + weather + todo) -->
+      <div class="section-wrapper" data-section="cards">
+        <div class="edit-controls">
+          <span class="drag-handle" title="Drag to reorder">&#8903; Widgets Row</span>
+        </div>
+        <div id="cards-container" class="main-grid">
+
+          <!-- Quick Links -->
+          <div class="card-wrapper" data-card="links">
+            <div class="card-edit-controls">
+              <span class="drag-handle" title="Drag to reorder">&#8903;</span>
+              <span class="card-label">Quick Links</span>
+              <button class="hide-widget-btn" data-widget="links" title="Hide">&#8854;</button>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Quick Links</h2>
+                <button id="add-link-btn" class="icon-btn" title="Add link">+</button>
+              </div>
+              <div id="links-grid" class="links-grid"></div>
+              <button id="add-link-inline-btn" class="add-link-inline-btn">+ Add Link</button>
+            </div>
+          </div>
+
+          <!-- Weather -->
+          <div class="card-wrapper" data-card="weather">
+            <div class="card-edit-controls">
+              <span class="drag-handle" title="Drag to reorder">&#8903;</span>
+              <span class="card-label">Weather</span>
+              <button class="hide-widget-btn" data-widget="weather" title="Hide">&#8854;</button>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Weather</h2>
+                <button id="weather-unit-toggle" class="icon-btn" title="Toggle °C / °F">°C</button>
+              </div>
+              <div id="weather-content" class="weather-content">
+                <p class="loading-text">Fetching location&hellip;</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- To-Do -->
+          <div class="card-wrapper" data-card="todo">
+            <div class="card-edit-controls">
+              <span class="drag-handle" title="Drag to reorder">&#8903;</span>
+              <span class="card-label">To-Do</span>
+              <button class="hide-widget-btn" data-widget="todo" title="Hide">&#8854;</button>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">To&#8209;Do</h2>
+                <span id="todo-count" class="todo-badge"></span>
+              </div>
+              <div id="todo-list" class="todo-list"></div>
+              <div class="todo-input-row">
+                <input type="text" id="todo-input" class="todo-input" placeholder="Add a task&hellip;" autocomplete="off">
+                <button id="add-todo-btn" class="add-btn" aria-label="Add task">+</button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /cards-container -->
+      </div><!-- /cards section -->
+
+      <!-- Open Tabs -->
+      <div class="section-wrapper" data-section="tabs">
+        <div class="edit-controls">
+          <span class="drag-handle" title="Drag to reorder">&#8903; Open Tabs</span>
+          <button class="hide-widget-btn" data-widget="tabs" title="Hide">Hide</button>
+        </div>
+        <div class="card tabs-card">
+          <div class="card-header">
+            <h2 class="card-title">Open Tabs</h2>
+            <button id="refresh-tabs-btn" class="icon-btn" title="Refresh">&#8635;</button>
+          </div>
+          <div id="tabs-grid" class="tabs-grid"></div>
+        </div>
+      </div>
+
+    </div><!-- /sections-container -->
+  </div><!-- /container -->
+
+  <!-- ── Add Link modal ────────────────────────────────── -->
+  <div id="add-link-modal" class="modal" role="dialog" aria-modal="true" aria-label="Add Quick Link">
+    <div class="modal-box">
+      <h3>Add Quick Link</h3>
+      <input type="text" id="link-name-input" placeholder="Name (e.g. GitHub)" autocomplete="off">
+      <input type="text" id="link-url-input" placeholder="URL (e.g. https://github.com)" autocomplete="off" spellcheck="false">
+      <div class="modal-actions">
+        <button id="cancel-link-btn" class="btn-secondary">Cancel</button>
+        <button id="save-link-btn" class="btn-primary">Add Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Bookmark import modal ──────────────────────────── -->
+  <div id="bookmark-modal" class="modal" role="dialog" aria-modal="true" aria-label="Import Bookmarks">
+    <div class="modal-box modal-box--wide">
+      <h3>Import Bookmarks</h3>
+      <input type="text" id="bookmark-search" placeholder="Filter bookmarks&hellip;" autocomplete="off">
+      <div class="bookmark-tree-actions">
+        <button id="bookmark-select-all" class="btn-ghost">Select all</button>
+        <button id="bookmark-deselect-all" class="btn-ghost">Deselect all</button>
+        <span id="bookmark-selected-count" class="selected-count"></span>
+      </div>
+      <div id="bookmark-tree" class="bookmark-tree"></div>
+      <div class="modal-actions">
+        <button id="cancel-bookmark-btn" class="btn-secondary">Cancel</button>
+        <button id="import-bookmark-btn" class="btn-primary">Import Selected</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Reset confirm modal ───────────────────────────── -->
+  <div id="reset-modal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <h3>Reset All Settings?</h3>
+      <p style="color:var(--text-sub);font-size:14px;margin-top:4px">This will restore all settings to defaults. Your links and todos are kept.</p>
+      <div class="modal-actions" style="margin-top:16px">
+        <button id="cancel-reset-btn" class="btn-secondary">Cancel</button>
+        <button id="confirm-reset-btn" class="btn-danger">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

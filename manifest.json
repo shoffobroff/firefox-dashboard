@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "New Tab Dashboard",
+  "version": "2.0.0",
+  "description": "A full-featured, configurable dashboard for your new tab page",
+  "permissions": [
+    "tabs",
+    "storage",
+    "sessions",
+    "bookmarks",
+    "windows"
+  ],
+  "chrome_url_overrides": {
+    "newtab": "dashboard.html"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "newtab-dashboard@local",
+      "strict_min_version": "57.0"
+    }
+  },
+  "icons": {
+    "48": "icons/icon.svg",
+    "96": "icons/icon.svg"
+  }
+}
